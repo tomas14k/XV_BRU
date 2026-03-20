@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum PrivacyType {
+  privada
+  publica
+}
+
+model Organizer {
+  id_organizer  String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password_hash String
+  events        Event[]
+}
+
+model Event {
+  id_event      String    @id @default(uuid())
+  id_organizer  String
+  event_name    String
+  date          DateTime
+  event_type    String
+  state         String    @default("pendiente")
+  organizer     Organizer @relation(fields: [id_organizer], references: [id_organizer])
+  qr_setup          QrSetup?
+  guest_UI_setup    GuestUISetup?
+  transmission_setup TransmissionSetup?
+  gallery           Gallery?
+  photos            Photo[]
+  idle_images       IdleImage[]
+}
+
+model QrSetup {
+  id_qr            String  @id @default(uuid())
+  id_event         String  @unique
+  title_card       String?
+  subtitle_card    String?
+  font_type        String?
+  size_text        Int?
+  color_text       String?
+  color_background String?
+  event            Event   @relation(fields: [id_event], references: [id_event])
+}
+
+model GuestUISetup {
+  id_guest_UI_setup String  @id @default(uuid())
+  id_event          String  @unique
+  title             String?
+  description       String?
+  font_type         String?
+  color_text        String?
+  color_background  String?
+  background_image  String?
+  event             Event   @relation(fields: [id_event], references: [id_event])
+}
+
+model TransmissionSetup {
+  id_transmission_setup String  @id @default(uuid())
+  id_event              String  @unique
+  state                 Boolean @default(false)
+  time_btw_pics         Int     @default(10)
+  event                 Event   @relation(fields: [id_event], references: [id_event])
+}
+
+model Gallery {
+  id_gallery   String      @id @default(uuid())
+  id_event     String      @unique
+  link_token   String?     @unique
+  privacy      PrivacyType @default(privada)
+  event        Event       @relation(fields: [id_event], references: [id_event])
+  photos       Photo[]
+}
+
+model Photo {
+  id_photo   String   @id @default(uuid())
+  id_event   String
+  id_gallery String
+  url        String
+  message    String?
+  autor_name String?
+  state      String   @default("pendiente")
+  created_at DateTime @default(now())
+  event      Event    @relation(fields: [id_event], references: [id_event])
+  gallery    Gallery  @relation(fields: [id_gallery], references: [id_gallery])
+}
+
+model IdleImage {
+  id_idle_image String  @id @default(uuid())
+  id_event      String
+  url           String
+  order         Int?
+  event         Event   @relation(fields: [id_event], references: [id_event])
+}
