@@ -1,8 +1,25 @@
+import { createServer } from 'http'
+import { Server } from 'socket.io'
 import app from './src/app.js'
- 
+
 const PORT = process.env.PORT || 3000
- 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} `)
+
+const httpServer = createServer(app)
+
+export const io = new Server(httpServer, {
+  cors: {
+    origin: process.env.FRONTEND_URL,
+  },
 })
- 
+
+io.on('connection', (socket) => {
+  console.log('cliente conectado:', socket.id)
+
+  socket.on('disconnect', () => {
+    console.log('cliente desconectado:', socket.id)
+  })
+})
+
+httpServer.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
