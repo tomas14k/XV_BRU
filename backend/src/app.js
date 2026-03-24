@@ -3,6 +3,7 @@ import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 import authRoutes from './presentation/routes/auth.routes.js'
+import eventRoutes from './presentation/routes/event.routes.js'
 
 const app = express()
  
@@ -17,6 +18,7 @@ app.get('/health', (req, res) => res.json({ status: 'ok' }))
 // Routes → 
 // app.use('/api/events', eventRoutes)
 app.use('/api/auth', authRoutes)
- 
+app.use('/api/event', eventRoutes) 
+
 export default app
  

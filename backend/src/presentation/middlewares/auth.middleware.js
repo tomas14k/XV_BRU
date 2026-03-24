@@ -16,6 +16,7 @@ export const authMiddleware = (req, res, next) => {
 
     // 3 - Adjuntar el payload al request para usarlo en las rutas
     req.organizer = payload
+    
 
     next()
   } catch {
