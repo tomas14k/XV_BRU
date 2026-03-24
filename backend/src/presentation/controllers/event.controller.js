@@ -1,14 +1,18 @@
 import { CreateEvent } from '../../application/use_cases/event/create-event.js'
 import { EndEvent } from '../../application/use_cases/event/end-event.js'
+import { GetEventByOrganizer } from '../../application/use_cases/event/get-event.js'
 import { StartEvent } from '../../application/use_cases/event/start-event.js'
 import { PrismaEventRepository } from '../../infrastructure/database/repositories/event.repository.js'
 import { toEventResponse } from '../schemas/event.schema.js'
+
 
 const eventRepository = new PrismaEventRepository()
 
 const createEvent = new CreateEvent(eventRepository)
 const startEvent = new StartEvent(eventRepository)
 const endEvent = new EndEvent(eventRepository)
+const getEventByOrganizer = new GetEventByOrganizer(eventRepository)
+ 
 
 //crear evento
 export const create = async (req, res) => {
@@ -19,6 +23,17 @@ export const create = async (req, res) => {
 
     const event = await createEvent.execute({ id_organizer, event_name, date, event_type })
     return res.status(201).json(toEventResponse(event))
+  } catch (error) {
+    return res.status(400).json({ error: error.message })
+  }
+}
+
+//obtener evento por organizador
+export const getByOrganizer = async (req, res) => {
+  try {
+    const id_organizer = req.organizer.id
+    const events = await getEventByOrganizer.execute({ id_organizer })
+    return res.status(200).json(events.map(toEventResponse))
   } catch (error) {
     return res.status(400).json({ error: error.message })
   }
