@@ -21,10 +21,12 @@ export function RegisterForm({ onToggle }) {
     })
 
     useEffect(() => {
-        if (isLoggedIn) navigate('/organizador')
+        if (isLoggedIn) navigate('/event/new')
     }, [isLoggedIn])
 
-    const onSubmit = (data) => registerUser(data)
+    const onSubmit = (data) => {
+        registerUser(data)
+    }
 
     return (
         <div className="flex flex-col gap-6 text-neutral-700">

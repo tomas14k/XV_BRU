@@ -17,6 +17,7 @@ import PublicGuard from './guards/PublicGuard.jsx'
 
 
 const AuthPage = lazy(() => import('@/features/auth/pages/AuthPage.jsx'))
+const NewEventPage = lazy(() => import('@/features/events/pages/NewEventPage.jsx'))
 
 const withSuspense = (Component) => (
   <Suspense fallback={<div>Cargando...</div>}>
@@ -25,28 +26,37 @@ const withSuspense = (Component) => (
 )
 
 export const router = createBrowserRouter([
-   // Rutas privadas — bajo AppLayout protegido
+  // Rutas privadas — bajo AppLayout protegido
   {
     element: (
       <AuthGuard>
         <AppLayout />
       </AuthGuard>),
     children: [
-      { path: "/", element:<div>koko</div> },
+      { path: "/", element: <div>koko</div> },
       { path: "/dashboard", element: <div>Login</div>, },
       { path: '/organizador', element: <div>Dashboard</div>, },
 
     ],
+  },
+  {
+    path: "/event/new",
+    element: (
+      <AuthGuard> 
+        <NewEventPage />
+        </AuthGuard>
+      ),
   },
   // Rutas públicas
   {
     path: "/auth/login",
     element: (
       <PublicGuard>
-        <AuthPage/>
+        <AuthPage />
       </PublicGuard>
     ),
   },
+
   { path: '/e/:token', element: <div>Invitado</div>, },
 
   // Redirect raíz

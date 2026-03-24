@@ -12,9 +12,5 @@ export default function PublicGuard({ children }) {
     )
   }
 
-  if (isLoggedIn) {
-    return <Navigate to="/organizador" replace />
-  }
-
   return children
 }
