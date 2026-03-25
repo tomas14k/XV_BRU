@@ -6,6 +6,18 @@ export const eventService = {
     const { data } = await privateClient.post(ENDPOINTS.EVENTS.create, { event_name, date, event_type })
     return data
   },
+  async get({}) {
+    const { data } = await privateClient.get(ENDPOINTS.EVENTS.getByOrganizer)
+    return data
+  },
+  async start({ id_event }) {
+    const { data } = await privateClient.patch(ENDPOINTS.EVENTS.start(id_event))
+    return data
+  },
+  async end({ id_event }) {
+    const { data } = await privateClient.patch(ENDPOINTS.EVENTS.end(id_event))
+    return data
+  }
 }
 
 /* create devuelve

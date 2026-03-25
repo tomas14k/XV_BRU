@@ -18,6 +18,9 @@ import PublicGuard from './guards/PublicGuard.jsx'
 
 const AuthPage = lazy(() => import('@/features/auth/pages/AuthPage.jsx'))
 const NewEventPage = lazy(() => import('@/features/events/pages/NewEventPage.jsx'))
+const DashboardPage = lazy(() => import('@/features/dashboard/pages/DashboardPage.jsx'))
+const TransmissionPage = lazy(() => import('@/features/events/pages/TransmissionPage.jsx'))
+
 
 const withSuspense = (Component) => (
   <Suspense fallback={<div>Cargando...</div>}>
@@ -34,18 +37,24 @@ export const router = createBrowserRouter([
       </AuthGuard>),
     children: [
       { path: "/", element: <div>koko</div> },
-      { path: "/dashboard", element: <div>Login</div>, },
-      { path: '/organizador', element: <div>Dashboard</div>, },
-
+      { path: "/dashboard", element: withSuspense(DashboardPage), },
+      { path: '/organizador', element: withSuspense(DashboardPage), },
     ],
   },
   {
     path: "/event/new",
     element: (
-      <AuthGuard> 
+      <AuthGuard>
         <NewEventPage />
-        </AuthGuard>
-      ),
+      </AuthGuard>
+    ),
+  },
+  {
+    path: '/organizador/transmision/:id_event',
+    element: 
+    <AuthGuard>
+      <TransmissionPage />
+    </AuthGuard>
   },
   // Rutas públicas
   {
