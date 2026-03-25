@@ -4,6 +4,7 @@ import { LoadingCard } from './LoadingCard'
 import { EventActionButton } from './EventActionButton'
 
 import { useEvent } from "../hooks/useEvent"
+import { QRCard } from './QrCard'
 
 export function EventCard() {
     
@@ -58,6 +59,7 @@ export function EventCard() {
                 onStart={handleStart}
                 onEnd={handleEnd}
             />
+            <QRCard id_event={event.id} />
         </div>
     )
 }

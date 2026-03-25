@@ -6,26 +6,27 @@ export class CreateEvent {
     this.eventRepository = eventRepository
     this.qrSetupRepository = qrSetupRepository
   }
-
   async execute({ id_organizer, event_name, date, event_type }) {
-    // 1 - Validar mediante la entidad
     new Event({ id_organizer, event_name, date, event_type, state: 'pendiente' })
 
-    // 2 - Crear el evento
     const event = await this.eventRepository.create({
-      id_organizer,
-      event_name,
-      date: new Date(date),
-      event_type,
+      id_organizer, event_name, date: new Date(date), event_type,
     })
 
-    // 3 - Generar token y crear qr_setup
+    console.log('evento creado:', event) // ← agregá esto
+
     const link_token = randomUUID()
-    const qr = await this.qrSetupRepository.create({
-      id_event: event.id_event,
-      link_token,
-    })
-
+    try {
+      const qr = await this.qrSetupRepository.create({
+        id_event: event.id_event,
+        link_token,
+      })
+      console.log('qr creado:', qr)
+      return { event, link_token: qr.link_token }
+    } catch (error) {
+      console.log('error al crear qr:', error.message)
+      throw error
+    }
     return { event, link_token: qr.link_token }
   }
 }

@@ -14,8 +14,10 @@ export function useEvent() {
       try {
         const data = await eventService.get({})
         if (data.length > 0) setEvent(data[0])
-      } catch {
-        toast.error('Error al cargar el evento')
+      } catch (error) {
+        toast("error al obtener el evento")
+        console.log('error al crear qr:', error.message)
+        throw error
       } finally {
         setLoading(false)
       }

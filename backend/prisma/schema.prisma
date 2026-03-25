@@ -38,6 +38,7 @@ model Event {
 model QrSetup {
   id_qr            String  @id @default(uuid())
   id_event         String  @unique
+  link_token       String  @unique
   title_card       String?
   subtitle_card    String?
   font_type        String?

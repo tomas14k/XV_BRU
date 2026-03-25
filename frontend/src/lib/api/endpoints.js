@@ -5,8 +5,9 @@ export const ENDPOINTS = {
     },
     EVENTS: {
         create: '/api/event/create',
-        getByOrganizer: '/api/event',
+        getByOrganizer: '/api/event/',
         start: (id_event) => `/api/event/${id_event}/start`,
         end: (id_event) => `/api/event/${id_event}/end`,
+        getQr: (id_event) => `/api/event/${id_event}/qr`,
     }
 }

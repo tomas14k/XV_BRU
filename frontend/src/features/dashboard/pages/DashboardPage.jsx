@@ -1,10 +1,13 @@
 import { EventCard } from "@/features/events/components/EventCard"
 
-export default function DashboardPage() {
+import { useEvent } from "@/features/events/hooks/useEvent"
 
+export default function DashboardPage() {
+    
     return (
         <div>
-            <EventCard></EventCard>
+            <EventCard />
+            
         </div>
     )
 }
