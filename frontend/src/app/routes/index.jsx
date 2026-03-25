@@ -1,4 +1,3 @@
-import { GuestLandingPage } from '@/features/guest/pages/GuestLandingPage'
 import { createBrowserRouter, Navigate } from "react-router";
 import { lazy, Suspense } from 'react'
 import AppLayout from '@/shared/layout/AppLayout';
@@ -20,6 +19,7 @@ const AuthPage = lazy(() => import('@/features/auth/pages/AuthPage.jsx'))
 const NewEventPage = lazy(() => import('@/features/events/pages/NewEventPage.jsx'))
 const DashboardPage = lazy(() => import('@/features/dashboard/pages/DashboardPage.jsx'))
 const TransmissionPage = lazy(() => import('@/features/events/pages/TransmissionPage.jsx'))
+const GuestLandingPage = lazy(() => import('@/features/guest/pages/GuestLandingPage.jsx'))
 
 
 const withSuspense = (Component) => (
@@ -39,6 +39,7 @@ export const router = createBrowserRouter([
       { path: "/", element: <div>koko</div> },
       { path: "/dashboard", element: withSuspense(DashboardPage), },
       { path: '/organizador', element: withSuspense(DashboardPage), },
+      
     ],
   },
   {
@@ -51,10 +52,10 @@ export const router = createBrowserRouter([
   },
   {
     path: '/organizador/transmision/:id_event',
-    element: 
-    <AuthGuard>
-      <TransmissionPage />
-    </AuthGuard>
+    element:
+      <AuthGuard>
+        <TransmissionPage />
+      </AuthGuard>
   },
   // Rutas públicas
   {
@@ -65,8 +66,14 @@ export const router = createBrowserRouter([
       </PublicGuard>
     ),
   },
-
-  { path: '/e/:token', element: <div>Invitado</div>, },
+  {
+    path: '/e/:token',
+    element: (
+      <PublicGuard>
+        <GuestLandingPage />
+      </PublicGuard>
+    ),
+  },
 
   // Redirect raíz
   { path: '/', element: <Navigate to="/auth/login" replace /> },
