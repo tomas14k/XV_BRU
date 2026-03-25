@@ -5,6 +5,7 @@ import { PasswordHasher } from '../../infrastructure/security/password-hasher.js
 import { JwtHandler } from '../../infrastructure/security/jwt-handler.js'
 import { toAuthResponse } from '../schemas/auth.schema.js'
 
+
 // Construir dependencias
 const organizerRepository = new PrismaOrganizerRepository()
 const passwordHasher = new PasswordHasher()
