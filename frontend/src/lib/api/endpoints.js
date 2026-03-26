@@ -9,5 +9,8 @@ export const ENDPOINTS = {
         start: (id_event) => `/api/event/${id_event}/start`,
         end: (id_event) => `/api/event/${id_event}/end`,
         getQr: (id_event) => `/api/event/${id_event}/qr`,
+    },
+    PHOTOS:{
+        create: 'api/photos/upload'
     }
 }

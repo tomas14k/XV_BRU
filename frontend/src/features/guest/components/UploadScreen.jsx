@@ -9,7 +9,7 @@ export function UploadScreen({
   previewUrl,
   isUploading,
   uploadError,
-  eventId,
+  link_token,
   onSubmit,
   onChangePhoto,
   fileInputRef,
@@ -20,7 +20,7 @@ export function UploadScreen({
   const [photoExpanded, setPhotoExpanded] = useState(false);
 
   const handleSubmit = () => {
-    onSubmit({ name, message, eventId });
+    onSubmit({ name, message, link_token });
   };
 
   return (

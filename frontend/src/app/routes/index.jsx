@@ -67,7 +67,7 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: '/e/:token',
+    path: '/e/:link_token',
     element: (
       <PublicGuard>
         <GuestLandingPage />

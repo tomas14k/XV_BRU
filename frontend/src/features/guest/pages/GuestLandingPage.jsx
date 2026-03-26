@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 import { WelcomeScreen } from "../components/WelcomeScreen";
@@ -41,7 +41,7 @@ if (!document.getElementById("brune-guest-globals")) {
 
 /**
  * GuestPage — top-level page for the guest flow.
- * Route: /evento/:eventId
+ * Route: /evento/:link_token
  *
  * Manages:
  *  - current screen (welcome → upload → success)
@@ -50,10 +50,10 @@ if (!document.getElementById("brune-guest-globals")) {
  *  - (optional) event data fetching
  */
 export default function GuestPage() {
-    const { eventId } = useParams();
+    const { link_token } = useParams(); 
 
-    const [screen, setScreen] = React.useState(SCREENS.WELCOME);
-    const [authorName, setAuthorName] = React.useState("");
+    const [screen, setScreen] = useState(SCREENS.WELCOME);
+    const [authorName, setAuthorName] = useState("");
 
     const {
         previewUrl,
@@ -81,7 +81,7 @@ export default function GuestPage() {
 
     const handleSubmit = async ({ name, message }) => {
         setAuthorName(name);
-        const ok = await uploadPhoto({ name, message, eventId });
+        const ok = await uploadPhoto({ name, message, link_token });
         if (ok) {
             startCooldown();
             setScreen(SCREENS.SUCCESS);
@@ -95,7 +95,7 @@ export default function GuestPage() {
 
     // Placeholder event data — replace with a real fetch / context / prop
     const eventData = {
-        event_name: "Quince de Brune",
+        event_name: "XV Brune",
         subtitle: "Compartí tu foto y hacela parte de esta noche ✨",
     };
 
@@ -117,7 +117,7 @@ export default function GuestPage() {
                     previewUrl={previewUrl}
                     isUploading={isUploading}
                     uploadError={uploadError}
-                    eventId={eventId}
+                    link_token={link_token}
                     onSubmit={handleSubmit}
                     onChangePhoto={handleChangePhoto}
                     fileInputRef={fileInputRef}

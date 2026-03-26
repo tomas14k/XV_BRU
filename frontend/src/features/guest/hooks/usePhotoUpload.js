@@ -1,4 +1,6 @@
 import { useState, useCallback, useRef } from "react";
+import { photoService } from "../services/guest.service";
+import { uploadToCloudinary } from "@/lib/cloudinary/upload";
 
 /**
  * Manages photo selection, preview generation, and upload state.
@@ -38,31 +40,24 @@ export function usePhotoUpload() {
 
   /**
    * Submits the photo to the server.
-   * @param {{ name: string, message: string, eventId: string }} meta
+   * @param {{ name: string, message: string, link_token: string }} meta
    */
   const uploadPhoto = useCallback(
-    async ({ name, message, eventId }) => {
+    async ({ name, message, link_token }) => {
       if (!selectedFile) return;
 
       setIsUploading(true);
       setUploadError(null);
 
       try {
-        const formData = new FormData();
-        formData.append("photo", selectedFile);
-        formData.append("eventId", eventId);
-        if (name.trim()) formData.append("autor_name", name.trim());
-        if (message.trim()) formData.append("message", message.trim());
+        const url = await uploadToCloudinary(selectedFile)
 
-        const res = await fetch("/api/photos/upload", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!res.ok) {
-          const data = await res.json().catch(() => ({}));
-          throw new Error(data?.message || "Error al subir la foto");
-        }
+        await photoService.create({
+          link_token,
+          url,
+          autor_name: name.trim() || null,
+          message: message.trim() || null,
+        })
 
         return true;
       } catch (err) {
@@ -74,6 +69,8 @@ export function usePhotoUpload() {
     },
     [selectedFile]
   );
+
+
 
   return {
     selectedFile,
