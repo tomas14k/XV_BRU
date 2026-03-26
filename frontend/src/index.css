@@ -6,6 +6,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+    @keyframes shrink {
+    from { width: 100%; }
+    to { width: 0%; }
+  }
+
 :root {
   /* Base */
   --background: oklch(23.929% 0.00003 271.152);              /* negro */
@@ -121,6 +126,15 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@theme {
+  --animate-fade-in: fade-in 3s ease-in-out;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 }
 
 @layer base {

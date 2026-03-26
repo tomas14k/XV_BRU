@@ -35,7 +35,7 @@ export function EventActionButton({ state, loading, onStart, onEnd }) {
       trigger={
         <Button disabled={loading} variant="destructive" className="w-full font-semibold gap-2">
           <CheckCircle2 className="size-4" />
-          {loading ? 'Finalizando...' : 'Finalizar evento'}
+          {loading ? 'Finalizando...' : 'Finalizar'}
         </Button>
       }
       title="¿Finalizar el evento?"
