@@ -3,6 +3,9 @@ import { GetEventByToken } from '../../application/use_cases/qr/get-event-by-tok
 import { PrismaPhotoRepository } from '../../infrastructure/database/repositories/photo.repository.js'
 import { PrismaQrSetupRepository } from '../../infrastructure/database/repositories/qr-setup.repository.js'
 
+import { getIO } from '../../infrastructure/socket/socket.service.js'
+import { SOCKET_EVENTS } from '../../infrastructure/socket/socket.events.js'
+
 const photoRepository = new PrismaPhotoRepository()
 const qrSetupRepository = new PrismaQrSetupRepository()
 const createPhoto = new CreatePhoto(photoRepository)
@@ -13,6 +16,17 @@ export const create = async (req, res) => {
     const { link_token, url, message, autor_name } = req.body
     const { id_event } = await getEventByToken.execute(link_token)
     const photo = await createPhoto.execute({ id_event, url, message, autor_name })
+
+    // Emitir a la pantalla grande
+    getIO().emit(SOCKET_EVENTS.NEW_PHOTO, {
+      id_photo: photo.id_photo,
+      url: photo.url,
+      message: photo.message,
+      autor_name: photo.autor_name,
+      created_at: photo.created_at,
+    })
+
+
     return res.status(201).json(photo)
   } catch (error) {
     return res.status(400).json({ error: error.message })
