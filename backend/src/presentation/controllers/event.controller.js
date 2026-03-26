@@ -27,6 +27,7 @@ export const create = async (req, res) => {
     return res.status(400).json({ error: error.message })
   }
 }
+
 //obtener evento por organizador
 export const getByOrganizer = async (req, res) => {
   try {
@@ -37,6 +38,8 @@ export const getByOrganizer = async (req, res) => {
     return res.status(400).json({ error: error.message })
   }
 }
+
+//Obtener el qe relacionado al evento
 export const getQr = async (req, res) => {
   try {
     const { id_event } = req.params

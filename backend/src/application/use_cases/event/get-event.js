@@ -9,3 +9,4 @@ export class GetEventByOrganizer {
     return events
   }
 }
+

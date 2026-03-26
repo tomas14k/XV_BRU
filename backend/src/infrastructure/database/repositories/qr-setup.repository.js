@@ -17,4 +17,10 @@ export class PrismaQrSetupRepository extends QrSetupRepository {
     if (!qr) return null
     return new QrSetup(qr)
   }
+  
+  async findByToken(link_token) {
+  return await prisma.qrSetup.findUnique({
+    where: { link_token }
+  })
+}
 }

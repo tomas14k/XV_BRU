@@ -74,20 +74,17 @@ model Gallery {
   link_token   String?     @unique
   privacy      PrivacyType @default(privada)
   event        Event       @relation(fields: [id_event], references: [id_event])
-  photos       Photo[]
 }
 
 model Photo {
   id_photo   String   @id @default(uuid())
   id_event   String
-  id_gallery String
   url        String
   message    String?
   autor_name String?
   state      String   @default("pendiente")
   created_at DateTime @default(now())
   event      Event    @relation(fields: [id_event], references: [id_event])
-  gallery    Gallery  @relation(fields: [id_gallery], references: [id_gallery])
 }
 
 model IdleImage {
