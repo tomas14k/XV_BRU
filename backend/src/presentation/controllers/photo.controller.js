@@ -10,8 +10,8 @@ const getEventByToken = new GetEventByToken(qrSetupRepository)
 
 export const create = async (req, res) => {
   try {
-    const { token, url, message, autor_name } = req.body
-    const { id_event } = await getEventByToken.execute(token)
+    const { link_token, url, message, autor_name } = req.body
+    const { id_event } = await getEventByToken.execute(link_token)
     const photo = await createPhoto.execute({ id_event, url, message, autor_name })
     return res.status(201).json(photo)
   } catch (error) {
