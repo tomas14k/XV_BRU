@@ -5,6 +5,7 @@ import 'dotenv/config'
 import authRoutes from './presentation/routes/auth.routes.js'
 import eventRoutes from './presentation/routes/event.routes.js'
 import photoRoutes from './presentation/routes/photo.routes.js'
+import idleImageRoutes from './presentation/routes/idle-image.routes.js'
 
 const app = express()
  
@@ -21,6 +22,7 @@ app.get('/health', (req, res) => res.json({ status: 'ok' }))
 app.use('/api/auth', authRoutes)
 app.use('/api/event', eventRoutes) 
 app.use('/api/photos', photoRoutes)
+app.use('/api/idle-image', idleImageRoutes)
 
 export default app
  
